@@ -46,7 +46,7 @@ export class GameBoard extends React.Component<GameBoardProps, GameBoardState> {
 			type: 'standard',
 			suit: 'hearts',
 			rank: '5',
-			baseValue: 5,
+			value: 5,
 			effects: []
 		}, this.store)
 

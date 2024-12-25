@@ -21,8 +21,8 @@ export class CardTooltip extends GameComponent<CardTooltipProps> {
 	private getEffectsText(card: CardType): string {
 		const changes: string[] = []
 
-		if (card.value !== card.base.baseValue) {
-			changes.push(`Value: ${card.base.baseValue} → ${card.value}`)
+		if (card.value !== card.base.value) {
+			changes.push(`Value: ${card.base.value} → ${card.value}`)
 		}
 		if (card.suit !== card.base.suit) {
 			changes.push(`Suit: ${card.base.suit} → ${card.suit}`)
@@ -56,7 +56,7 @@ export class CardTooltip extends GameComponent<CardTooltipProps> {
 				<Text
 					x={10}
 					y={10}
-					text={`${card.name}\nBase Type: ${card.base.type}\nBase Value: ${card.base.baseValue}`}
+					text={`${card.name}\nBase Type: ${card.base.type}\nBase Value: ${card.base.value}`}
 					fontSize={14}
 				/>
 				<Text

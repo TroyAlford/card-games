@@ -1,5 +1,13 @@
 import { makeAutoObservable } from 'mobx'
-import { GameState, PlayArea, Player, Team, RelationshipManager, STANDARD_SUITS, STANDARD_COLORS, Suit, Color } from '../types'
+import type { GameState } from '../types/GameState'
+import type { PlayArea } from '../types/PlayArea'
+import type { Player } from '../types/Player'
+import type { Team } from '../types/Team'
+import type { RelationshipManager } from '../types/RelationshipManager'
+import type { Suit } from '../types/Suit'
+import type { Color } from '../types/Color'
+import { STANDARD_SUITS } from '../types/Suit'
+import { STANDARD_COLORS } from '../types/Color'
 
 export class GameStore {
 	public state: GameState

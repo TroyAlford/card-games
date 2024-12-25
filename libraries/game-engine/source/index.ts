@@ -1,5 +1,6 @@
 export { Game } from './Game'
 export { GameStore } from './store/GameStore'
+
 export type {
 	GameState,
 	Player,
@@ -11,5 +12,7 @@ export type {
 	RelationshipType,
 	RelationshipManager,
 	Suit,
-} from './types'
-export { STANDARD_SUITS } from './types' 
+	Color
+} from './types/index'
+
+export { STANDARD_SUITS, STANDARD_COLORS } from './types/index' 

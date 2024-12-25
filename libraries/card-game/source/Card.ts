@@ -1,9 +1,15 @@
 import { makeAutoObservable, computed } from 'mobx'
-import { CardDefinition, ICard, CardEffect, Modifier, Trigger, GameEvent } from './types'
-import { Enchantment, Effect, PlayArea, GameStore } from '@card-games/game-engine'
+import type { CardDefinition } from './types/CardDefinition'
+import type { ICard } from './types/ICard'
+import type { CardEffect } from './types/CardEffect'
+import type { Modifier } from './types/Modifier'
+import type { Trigger } from './types/Trigger'
+import type { GameEvent } from './types/GameEvent'
+import type { Enchantment, Effect, PlayArea } from '@card-games/game-engine'
+import { GameStore } from '@card-games/game-engine'
 
 export class Card implements ICard {
-	public readonly base: CardDefinition
+	protected readonly base: CardDefinition
 	public readonly id: string
 	public readonly name: string
 	public readonly effects: CardEffect[]
@@ -60,7 +66,7 @@ export class Card implements ICard {
 
 	@computed
 	public get value(): number {
-		let value = this.base.baseValue
+		let value = this.base.value
 
 		// Apply modifiers in order
 		this.modifiers.forEach(modifier => {
@@ -161,7 +167,7 @@ export class Card implements ICard {
 		return rank
 	}
 
-	public async handleEvent(event: GameEvent): Promise<void> {
+	public async handle(event: GameEvent): Promise<void> {
 		// Execute all triggers that match the event
 		await Promise.all(
 			this.triggers
@@ -171,12 +177,12 @@ export class Card implements ICard {
 	}
 
 	// Helper method to add enchantments
-	public addEnchantment(enchantment: Enchantment): void {
+	public enchant(enchantment: Enchantment): void {
 		this.enchantments.push(enchantment)
 	}
 
 	// Helper method to remove enchantments
-	public removeEnchantment(enchantmentId: string): void {
+	public disenchant(enchantmentId: string): void {
 		this.enchantments = this.enchantments.filter(e => e.id !== enchantmentId)
 	}
 
