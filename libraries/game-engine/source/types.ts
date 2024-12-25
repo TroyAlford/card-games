@@ -9,4 +9,5 @@ export interface GameState {
 export interface Player {
 	id: string
 	name: string
+	resources: Record<string, number>  // Generic resources (coins, etc)
 } 

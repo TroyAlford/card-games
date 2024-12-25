@@ -1,18 +1,17 @@
 import * as React from 'react'
-import { Group, Rect } from 'react-konva'
+import { Group, Rect, Text } from 'react-konva'
+import { CARD_WIDTH, CARD_HEIGHT } from './Card'
 
 interface DeckProps {
 	x: number
 	y: number
+	label?: string
 }
 
 export class Deck extends React.Component<DeckProps> {
 	render() {
-		const { x, y } = this.props
-		const CARD_WIDTH = 60
-		const CARD_HEIGHT = 100
+		const { x, y, label } = this.props
 
-		// Render a stack of cards effect
 		return (
 			<Group x={x} y={y}>
 				{[4, 3, 2, 1, 0].map(i => (
@@ -28,6 +27,17 @@ export class Deck extends React.Component<DeckProps> {
 						y={i * 0.5}
 					/>
 				))}
+				{label && (
+					<Text
+						x={CARD_WIDTH / 2}
+						y={CARD_HEIGHT + 5}
+						text={label}
+						fontSize={12}
+						fill="#2c3e50"
+						align="center"
+						offsetX={CARD_WIDTH / 4}
+					/>
+				)}
 			</Group>
 		)
 	}
