@@ -8,12 +8,10 @@
     "games/*"
   ],
   "scripts": {
-    "develop": "concurrently \"bun run dev:server\" \"bun run dev:client\"",
-    "dev:server": "cd server && bun run dev",
-    "dev:client": "cd client && bun run dev",
-    "build": "bun run build:client && bun run build:server",
-    "build:client": "cd client && bun run build",
-    "build:server": "cd server && bun run build"
+    "develop": "concurrently -n server,client -c 'bgGreen.bold,bgBlue.bold' \"bun run dev:server\" \"bun run dev:client\"",
+    "dev:server": "bun run --cwd server develop",
+    "dev:client": "bun run --cwd client develop",
+    "build": "bun run --cwd client build && bun run --cwd server build"
   },
   "devDependencies": {
     "chokidar": "^4.0.3",

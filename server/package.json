@@ -2,11 +2,8 @@
   "name": "@card-games/server",
   "version": "1.0.0",
   "scripts": {
-    "dev": "bun run --watch src/index.ts",
+    "develop": "bun run --watch src/index.ts",
     "build": "bun build src/index.ts --outdir dist"
-  },
-  "dependencies": {
-    "bun": "latest"
   },
   "devDependencies": {
     "@types/bun": "latest"

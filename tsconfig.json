@@ -1,9 +1,14 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-			"@basis/*": ["basis/libraries/*"],
-      "@/*": ["/*"]
-    }
-  }
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@basis/*": [
+				"basis/libraries/*"
+			],
+			"@/*": [
+				"/*"
+			]
+		},
+		"jsx": "react-jsx"
+	}
 }
