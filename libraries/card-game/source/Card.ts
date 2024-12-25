@@ -1,6 +1,4 @@
-import type { CardDefinition, Card as ICard, CardEffect } from './types'
-import { Modifier } from './Modifier'
-import { Trigger } from '@card-games/game-engine'
+import { CardDefinition, Card as ICard, CardEffect, Modifier, Trigger, GameEvent } from './types'
 
 export class Card implements ICard {
 	public readonly id: string
@@ -38,18 +36,21 @@ export class Card implements ICard {
 		// Apply modifiers in order
 		this.modifiers.forEach(modifier => {
 			if (modifier.effect.type === 'value') {
-				const oldValue = value
-				modifier.effect.apply({ value })
-				value = oldValue
+				const result = modifier.effect.apply(this)
+				if (typeof result === 'number') {
+					value = result
+				}
 			}
 		})
 		return value
 	}
 
-	public async handleEvent(event: any): Promise<void> {
+	public async handleEvent(event: GameEvent): Promise<void> {
 		// Execute all triggers that match the event
 		await Promise.all(
-			this.triggers.map(trigger => trigger.execute(event, this))
+			this.triggers
+				.filter(trigger => trigger.condition(event))
+				.map(trigger => trigger.execute(event, this))
 		)
 	}
 } 

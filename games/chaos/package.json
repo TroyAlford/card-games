@@ -1,5 +1,16 @@
 {
 	"name": "@card-games/chaos",
-	"version": "0.0.1",
-	"main": "src/ChaosGame.ts"
+	"version": "1.0.0",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc"
+	},
+	"dependencies": {
+		"@card-games/card-game": "workspace:*",
+		"@card-games/game-engine": "workspace:*"
+	},
+	"devDependencies": {
+		"typescript": "^4.9.0"
+	}
 }

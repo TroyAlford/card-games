@@ -1,5 +1,5 @@
-import { Game, GameState } from '@card-games/game-engine'
-import type { Card, Deck, Hand } from './types'
+import { Game, GameState, Player } from '@card-games/game-engine'
+import { Card, GameEvent } from './types'
 import { CardDrawSource } from './sources/CardDrawSource'
 
 export interface CardGameConfig {
@@ -8,14 +8,14 @@ export interface CardGameConfig {
 }
 
 export interface CardGameState extends GameState {
-	drawSources: Record<string, Deck>
-	hands: Record<string, Hand>
+	drawSources: Record<string, Card[]>
+	hands: Record<string, Card[]>
 	table: Card[]
 	effects: Record<string, any>
 }
 
 export abstract class CardGame extends Game<CardGameState> {
-	protected config: CardGameConfig
+	protected readonly config: CardGameConfig
 
 	constructor(config: CardGameConfig) {
 		super({
@@ -31,7 +31,12 @@ export abstract class CardGame extends Game<CardGameState> {
 		this.config = config
 	}
 
-	protected initializeGame(): void {
+	public override async start(): Promise<void> {
+		await super.start()
+		await this.initializeGame()
+	}
+
+	protected async initializeGame(): Promise<void> {
 		// Initialize all draw sources
 		this.config.drawSources.forEach(source => {
 			source.initialize()
@@ -40,7 +45,7 @@ export abstract class CardGame extends Game<CardGameState> {
 
 		// Deal initial hands if needed
 		if (this.config.startingHandSize > 0) {
-			this.dealInitialHands()
+			await this.dealInitialHands()
 		}
 	}
 
@@ -68,6 +73,41 @@ export abstract class CardGame extends Game<CardGameState> {
 		}
 	}
 
+	public getPlayer<T extends Player>(playerId: string): T {
+		const player = super.getPlayer(playerId)
+		if (!player) throw new Error('Player not found')
+		return player as T
+	}
+
+	public getDrawSource(sourceId: string): CardDrawSource {
+		const source = this.config.drawSources.find(s => s.id === sourceId)
+		if (!source) throw new Error('Invalid draw source')
+		return source
+	}
+
+	public async drawCards(source: CardDrawSource, count: number): Promise<Card[]> {
+		const cards = await source.draw(count)
+		if (cards.length === 0) throw new Error('No cards available')
+		return cards
+	}
+
+	public async addCardsToHand(playerId: string, cards: Card[]): Promise<void> {
+		if (!this.state.hands[playerId]) {
+			this.state.hands[playerId] = []
+		}
+		this.state.hands[playerId].push(...cards)
+	}
+
+	public async refillDrawSource(source: CardDrawSource, maxCards: number): Promise<void> {
+		const displayCards = this.state.drawSources[source.id] || []
+		while (displayCards.length < maxCards) {
+			const newCards = await source.draw(1)
+			if (newCards.length === 0) break
+			displayCards.push(...newCards)
+		}
+		this.state.drawSources[source.id] = displayCards
+	}
+
 	protected abstract validateMove(playerId: string, cards: Card[]): boolean
 	protected abstract calculateScore(): Record<string, number>
 
@@ -87,7 +127,7 @@ export abstract class CardGame extends Game<CardGameState> {
 		})
 
 		// Create and process the card play event
-		const event = {
+		const event: GameEvent = {
 			type: 'CARDS_PLAYED',
 			playerId,
 			timestamp: Date.now(),
@@ -98,8 +138,12 @@ export abstract class CardGame extends Game<CardGameState> {
 		await Promise.all([
 			...this.state.table,
 			...Object.values(this.state.hands).flat()
-		].map(card => card.handleEvent(event)))
+		].map(card => this.handleCardEvent(card, event)))
 
 		await this.save()
+	}
+
+	protected async handleCardEvent(card: Card, event: GameEvent): Promise<void> {
+		await card.handleEvent(event)
 	}
 } 
