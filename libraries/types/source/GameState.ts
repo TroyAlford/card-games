@@ -1,6 +1,6 @@
 import type { Player } from './Player'
 import type { Team } from './Team'
-import type { PlayArea } from './PlayArea'
+import type { PlayArea } from '../../game-engine/source/types/PlayArea'
 import type { Suit } from './Suit'
 import type { Color } from './Color'
 

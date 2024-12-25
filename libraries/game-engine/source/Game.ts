@@ -1,4 +1,5 @@
-import { GameState, Player } from './types'
+import { GameState } from "../../types/source/GameState"
+import { Player } from "../../types/source/Player"
 
 export abstract class Game<T extends GameState> {
 	protected state: T

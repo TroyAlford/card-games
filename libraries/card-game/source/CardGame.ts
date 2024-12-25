@@ -1,6 +1,7 @@
 import { Game, GameState, Player } from '@card-games/game-engine'
-import { Card, GameEvent } from './types'
-import { CardDrawSource } from './sources/CardDrawSource'
+import { CardDrawSource } from './CardDrawSource'
+import { GameEvent } from '../../types/source/GameEvent'
+import { Card } from './Card'
 
 export interface CardGameConfig {
 	drawSources: CardDrawSource[]

@@ -1,11 +1,9 @@
 {
   "name": "@card-games/game-engine",
-  "version": "1.0.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc"
-  },
+  "version": "0.0.1",
+	"exports": {
+		".": "./index.ts"
+	},
   "dependencies": {
     "mobx": "^6.10.0"
   },

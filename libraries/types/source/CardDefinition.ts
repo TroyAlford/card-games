@@ -1,4 +1,4 @@
-import type { CardEffect } from './CardEffect'
+import type { CardEffect } from '@card-games/card-game/source/types/CardEffect'
 
 export interface CardDefinition {
 	color?: string

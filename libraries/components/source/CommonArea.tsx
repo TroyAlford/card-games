@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Group, Rect, Text } from 'react-konva'
-import { Card as CardComponent } from '../Card'
-import { Deck } from '../Deck'
-import { CARD_WIDTH } from '../Card'
+import { Card as CardComponent } from './Card'
+import { Deck } from './Deck'
+import { CARD_WIDTH } from './Card'
 import type { Card as CardModel } from '@card-games/card-game'
 
 interface CommonAreaProps {

@@ -1,4 +1,4 @@
-import type { ICard } from './ICard'
+import type { ICard } from '@card-games/card-game/source/types/ICard'
 
 export interface GameEvent {
 	data?: any

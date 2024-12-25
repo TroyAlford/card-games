@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GameBoard } from './components/GameBoard';
+import { GameBoard } from '@card-games/components';
 
 interface ApplicationState {
 	dimensions: {

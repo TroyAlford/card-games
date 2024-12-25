@@ -1,0 +1,12 @@
+{
+	"name": "@card-games/components",
+	"version": "0.0.1",
+	"exports": {
+		".": "./index.ts"
+	},
+	"dependencies": {
+		"@card-games/types": "workspace:*",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0"
+	}
+}

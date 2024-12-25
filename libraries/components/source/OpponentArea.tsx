@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Group, Rect } from 'react-konva'
-import { PlayerStats } from '../PlayerStats'
-import { Card as CardComponent } from '../Card'
+import { PlayerStats } from './PlayerStats'
+import { Card as CardComponent } from './Card'
 
 interface OpponentAreaProps {
 	y: number

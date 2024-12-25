@@ -1,6 +1,6 @@
 export interface Event {
-	type: string
+	payload?: any
 	playerId: string
 	timestamp: number
-	payload?: any
+	type: string
 } 

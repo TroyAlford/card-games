@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { Group, Rect } from 'react-konva'
-import { Card as CardComponent } from '../Card'
-import { Menu } from '../Menu'
-import { Deck } from '../Deck'
-import { PlayerStats } from '../PlayerStats'
+import { Card as CardComponent } from './Card'
+import { Menu } from './Menu'
+import { Deck } from './Deck'
+import { PlayerStats } from './PlayerStats'
 import type { Card as CardModel } from '@card-games/card-game'
-import { CARD_WIDTH } from '../Card'
+import { CARD_WIDTH } from './Card'
 
 interface PlayerAreaProps {
 	y: number

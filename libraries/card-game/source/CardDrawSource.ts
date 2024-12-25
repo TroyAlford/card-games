@@ -1,4 +1,4 @@
-import { Card } from '../types'
+import { Card } from './Card'
 
 export interface CardDrawSourceConfig {
 	id: string
