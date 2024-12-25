@@ -1,41 +1,48 @@
+import type { Enchantment, Effect } from '@card-games/game-engine'
+
 export interface CardDefinition {
 	id: string
 	name: string
 	type: string
 	baseValue: number
+	suit: string
+	rank: string
+	color?: string
 	effects?: CardEffect[]
 }
 
-export interface Card extends CardDefinition {
-	currentValue: number
-	modifiers: Modifier[]
-	triggers: Trigger[]
+export interface ICard {
+	id: string
+	name: string
+	type: string
+	suit: string
+	rank: string
+	value: number
+	color?: string | undefined
+	effects: CardEffect[]
+	enchantments: Enchantment[]
 	handleEvent(event: GameEvent): Promise<void>
+	addEnchantment(enchantment: Enchantment): void
+	removeEnchantment(enchantmentId: string): void
 }
 
 export interface CardEffect {
-	type: string
 	modifiers?: Modifier[]
 	triggers?: Trigger[]
 }
 
 export interface Modifier {
-	type: string
-	effect: {
-		type: 'value' | 'attribute'
-		apply: (card: Card) => number | void
-	}
+	effect: Effect
 }
 
 export interface Trigger {
-	type: string
 	condition: (event: GameEvent) => boolean
-	execute: (event: GameEvent, card: Card) => Promise<void>
+	execute: (event: GameEvent, card: ICard) => Promise<void>
 }
 
 export interface GameEvent {
 	type: string
-	playerId: string
-	timestamp: number
-	payload: any
+	source: ICard
+	target?: ICard
+	data?: any
 } 

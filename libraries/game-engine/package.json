@@ -6,7 +6,10 @@
   "scripts": {
     "build": "tsc"
   },
+  "dependencies": {
+    "mobx": "^6.10.0"
+  },
   "devDependencies": {
-    "typescript": "^4.9.0"
+    "typescript": "^5.7.2"
   }
-} 
+}

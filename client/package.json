@@ -1,17 +1,20 @@
 {
   "name": "@card-games/client",
   "version": "1.0.0",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "develop": "vite --port 3000 --host",
-    "build": "vite build",
-    "preview": "vite preview"
+    "develop": "vite --port 80 --host"
   },
   "dependencies": {
-    "konva": "^9.3.18",
+    "@card-games/card-game": "workspace:*",
+    "@card-games/game-engine": "workspace:*",
+    "konva": "^9.2.0",
+    "mobx": "^6.10.0",
+    "mobx-react": "^9.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-konva": "^19.0.1",
-    "sass": "^1.83.0"
+    "react-konva": "^19.0.1"
   },
   "devDependencies": {
     "@types/react": "^19.0.2",

@@ -10,6 +10,6 @@
     "@card-games/game-engine": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^4.9.0"
+    "typescript": "^5.7.2"
   }
-} 
+}

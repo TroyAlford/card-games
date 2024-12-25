@@ -1,10 +1,22 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { resolve } from 'path'
 
 export default defineConfig({
-	plugins: [react()],
-	server: {
-		port: 3000,
-		host: true
+	plugins: [
+		react({
+			babel: {
+				parserOpts: {
+					plugins: ['decorators-legacy', 'classProperties']
+				}
+			}
+		})
+	],
+	resolve: {
+		alias: {
+			'@card-games/game-engine': resolve(__dirname, '../libraries/game-engine/source'),
+			'@card-games/card-game': resolve(__dirname, '../libraries/card-game/source'),
+			'@card-games/client': resolve(__dirname, './src')
+		}
 	}
 }) 

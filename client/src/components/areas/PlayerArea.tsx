@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { Group, Rect } from 'react-konva'
-import { Card } from '../Card'
+import { Card as CardComponent } from '../Card'
 import { Menu } from '../Menu'
 import { Deck } from '../Deck'
 import { PlayerStats } from '../PlayerStats'
-import type { Card as CardType } from '@card-games/card-game'
+import type { Card as CardModel } from '@card-games/card-game'
 import { CARD_WIDTH } from '../Card'
 
 interface PlayerAreaProps {
@@ -12,12 +12,12 @@ interface PlayerAreaProps {
 	width: number
 	height: number
 	coins: number
-	hand: CardType[]
-	playArea: CardType[]
+	hand: CardModel[]
+	playArea: CardModel[]
 }
 
 export class PlayerArea extends React.Component<PlayerAreaProps> {
-	render() {
+	override render() {
 		const { y, width, height, coins, hand, playArea } = this.props
 		const cardSpacing = Math.min(CARD_WIDTH + 10, (width - 200) / Math.max(hand.length, 1))
 		const centerX = width / 2
@@ -31,7 +31,7 @@ export class PlayerArea extends React.Component<PlayerAreaProps> {
 
 				<Group x={centerX - (handWidth / 2)} y={20}>
 					{playArea.map((card, i) => (
-						<Card
+						<CardComponent
 							key={card.id}
 							card={card}
 							x={i * cardSpacing}
@@ -42,7 +42,7 @@ export class PlayerArea extends React.Component<PlayerAreaProps> {
 
 				<Group x={centerX - (handWidth / 2)} y={height - 120}>
 					{hand.map((card, i) => (
-						<Card
+						<CardComponent
 							key={card.id}
 							card={card}
 							x={i * cardSpacing}

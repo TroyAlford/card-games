@@ -1,10 +1,68 @@
 {
 	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"allowJs": true,
+		"checkJs": true,
+		"jsx": "react",
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"outDir": "./dist",
+		"removeComments": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": true,
+		"noImplicitThis": true,
+		"useUnknownInCatchVariables": true,
+		"alwaysStrict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"exactOptionalPropertyTypes": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
 		"baseUrl": ".",
 		"paths": {
-			"@basis/*": ["basis/libraries/*"],
-			"@/*": ["/*"]
-		},
-		"jsx": "react-jsx"
-	}
+			"@card-games/game-engine": [
+				"libraries/game-engine/source"
+			],
+			"@card-games/game-engine/*": [
+				"libraries/game-engine/source/*"
+			],
+			"@card-games/card-game": [
+				"libraries/card-game/source"
+			],
+			"@card-games/card-game/*": [
+				"libraries/card-game/source/*"
+			],
+			"@card-games/client": [
+				"client/src"
+			],
+			"@card-games/client/*": [
+				"client/src/*"
+			]
+		}
+	},
+	"include": [
+		"libraries/*/source/**/*",
+		"games/*/source/**/*",
+		"client/src/**/*"
+	],
+	"exclude": [
+		"node_modules",
+		"dist"
+	]
 }

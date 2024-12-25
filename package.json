@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "server",
+    "libraries/*",
     "client",
     "games/*",
-    "packages/*"
+    "server"
   ],
   "scripts": {
     "develop": "concurrently -n client -c 'bgBlue.bold' \"bun run --cwd client develop\""
@@ -15,8 +15,5 @@
     "chokidar": "^4.0.3",
     "concurrently": "^9.1.0",
     "sass": "^1.83.0"
-  },
-  "dependencies": {
-    "basis": "TroyAlford/basis"
   }
 }

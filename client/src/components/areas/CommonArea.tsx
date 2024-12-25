@@ -1,21 +1,22 @@
 import * as React from 'react'
 import { Group, Rect, Text } from 'react-konva'
-import { Card } from '../Card'
+import { Card as CardComponent } from '../Card'
 import { Deck } from '../Deck'
 import { CARD_WIDTH } from '../Card'
+import type { Card as CardModel } from '@card-games/card-game'
 
 interface CommonAreaProps {
 	y: number
 	width: number
 	height: number
-	standardCards: Card[]
-	jokerCards: Card[]
-	enchantments: Card[]
-	onCardClick?: (card: Card, source: string) => void
+	standardCards: CardModel[]
+	jokerCards: CardModel[]
+	enchantments: CardModel[]
+	onCardClick?: (card: CardModel, source: string) => void
 }
 
 export class CommonArea extends React.Component<CommonAreaProps> {
-	render() {
+	override render() {
 		const { y, width, height, standardCards, jokerCards, enchantments, onCardClick } = this.props
 		const sectionWidth = Math.max(width / 3, 400) // Minimum width per section
 		const cardSpacing = Math.min(CARD_WIDTH + 10, (sectionWidth - 200) / 5) // Adaptive card spacing
@@ -30,7 +31,7 @@ export class CommonArea extends React.Component<CommonAreaProps> {
 					<Deck x={40} y={30} label="Standard" />
 					<Group x={120} y={30}>
 						{standardCards.slice(0, 5).map((card, i) => (
-							<Card
+							<CardComponent
 								key={card.id}
 								card={card}
 								x={i * cardSpacing}
@@ -47,7 +48,7 @@ export class CommonArea extends React.Component<CommonAreaProps> {
 					<Deck x={40} y={30} label="Jokers" />
 					<Group x={120} y={30}>
 						{jokerCards.map((card, i) => (
-							<Card
+							<CardComponent
 								key={card.id}
 								card={card}
 								x={i * (CARD_WIDTH + 10)}
@@ -64,7 +65,7 @@ export class CommonArea extends React.Component<CommonAreaProps> {
 					<Deck x={40} y={30} label="Enchant" />
 					<Group x={120} y={30}>
 						{enchantments.map((card, i) => (
-							<Card
+							<CardComponent
 								key={card.id}
 								card={card}
 								x={i * (CARD_WIDTH + 10)}
