@@ -2,7 +2,7 @@
   "name": "@card-games/client",
   "version": "1.0.0",
   "scripts": {
-    "develop": "vite",
+    "develop": "vite --port 3000 --host",
     "build": "vite build",
     "preview": "vite preview"
   },

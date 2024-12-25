@@ -5,13 +5,11 @@
   "workspaces": [
     "server",
     "client",
-    "games/*"
+    "games/*",
+    "packages/*"
   ],
   "scripts": {
-    "develop": "concurrently -n server,client -c 'bgGreen.bold,bgBlue.bold' \"bun run dev:server\" \"bun run dev:client\"",
-    "dev:server": "bun run --cwd server develop",
-    "dev:client": "bun run --cwd client develop",
-    "build": "bun run --cwd client build && bun run --cwd server build"
+    "develop": "concurrently -n client -c 'bgBlue.bold' \"bun run --cwd client develop\""
   },
   "devDependencies": {
     "chokidar": "^4.0.3",

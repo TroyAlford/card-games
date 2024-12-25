@@ -1,0 +1,16 @@
+{
+  "name": "@card-games/card-game",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "develop": "tsc --watch"
+  },
+  "dependencies": {
+    "@card-games/game-engine": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+} 

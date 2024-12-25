@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Stage, Layer, Text } from 'react-konva';
 
-class App extends React.Component {
+export class Application extends React.Component {
 	render() {
 		return (
 			<Stage width={window.innerWidth} height={window.innerHeight}>
@@ -18,5 +18,3 @@ class App extends React.Component {
 		);
 	}
 }
-
-export default App; 
