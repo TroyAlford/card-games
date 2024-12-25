@@ -10,7 +10,8 @@
     "konva": "^9.3.18",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-konva": "^19.0.1"
+    "react-konva": "^19.0.1",
+    "sass": "^1.83.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.2",
