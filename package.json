@@ -1,0 +1,26 @@
+{
+  "name": "card-games",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client",
+    "games/*"
+  ],
+  "scripts": {
+    "develop": "concurrently \"bun run dev:server\" \"bun run dev:client\"",
+    "dev:server": "cd server && bun run dev",
+    "dev:client": "cd client && bun run dev",
+    "build": "bun run build:client && bun run build:server",
+    "build:client": "cd client && bun run build",
+    "build:server": "cd server && bun run build"
+  },
+  "devDependencies": {
+    "chokidar": "^4.0.3",
+    "concurrently": "^9.1.0",
+    "sass": "^1.83.0"
+  },
+  "dependencies": {
+    "basis": "TroyAlford/basis"
+  }
+}
