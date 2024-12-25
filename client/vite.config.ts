@@ -16,7 +16,7 @@ export default defineConfig({
 		alias: {
 			'@card-games/game-engine': resolve(__dirname, '../libraries/game-engine/source'),
 			'@card-games/card-game': resolve(__dirname, '../libraries/card-game/source'),
-			'@card-games/client': resolve(__dirname, './src')
+			'@card-games/client': resolve(__dirname, './source')
 		}
 	}
 }) 

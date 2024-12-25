@@ -5,8 +5,7 @@
   "workspaces": [
     "libraries/*",
     "client",
-    "games/*",
-    "server"
+    "games/*"
   ],
   "scripts": {
     "develop": "concurrently -n client -c 'bgBlue.bold' \"bun run --cwd client develop\""

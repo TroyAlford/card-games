@@ -36,7 +36,6 @@ A client-server based card game framework supporting multiple card game implemen
 ## Project Structure
 
 - `/client` - Web client implementation
-- `/server` - Game server and state management
 - `/libraries`
   - `/game-engine` - Core game engine
   - `/card-game` - Card game abstractions
