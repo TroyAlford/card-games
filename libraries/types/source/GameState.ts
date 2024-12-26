@@ -1,35 +1,35 @@
-import type { Player } from './Player'
-import type { Team } from './Team'
-import type { PlayArea } from './PlayArea'
-import type { Suit } from './Suit'
 import type { Color } from './Color'
+import type { PlayArea } from './PlayArea'
+import type { Player } from './Player'
+import type { Suit } from './Suit'
+import type { Team } from './Team'
 
 /**
  * Represents the complete state of a game.
  * This should be JSON serializable for persistence.
  */
 export interface GameState {
-	/** Unique identifier for this game */
-	id: string
+  /** Available colors in the game */
+  colors: Color[],
 
-	/** Players in the game */
-	players: Player[]
+  /** Current turn number */
+  currentTurn: number,
 
-	/** Teams in the game (if team-based) */
-	teams: Team[]
+  /** Unique identifier for this game */
+  id: string,
 
-	/** Play areas on the board */
-	playAreas: PlayArea[]
+  /** Play areas on the board */
+  playAreas: PlayArea[],
 
-	/** Current turn number */
-	currentTurn: number
+  /** Players in the game */
+  players: Player[],
 
-	/** Game status */
-	status: 'waiting' | 'active' | 'paused' | 'complete'
+  /** Game status */
+  status: 'waiting' | 'active' | 'paused' | 'complete',
 
-	/** Available suits in the game */
-	suits: Suit[]
+  /** Available suits in the game */
+  suits: Suit[],
 
-	/** Available colors in the game */
-	colors: Color[]
-} 
+  /** Teams in the game (if team-based) */
+  teams: Team[],
+}

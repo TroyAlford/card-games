@@ -11,8 +11,21 @@
     "develop": "concurrently -n client -c 'bgBlue.bold' \"bun run --cwd client develop\""
   },
   "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@stylistic/eslint-plugin": "^2.12.1",
+    "basis": "TroyAlford/basis",
     "chokidar": "^4.0.3",
     "concurrently": "^9.1.0",
-    "sass": "^1.83.0"
+    "eslint": "^9.17.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-import-newlines": "^1.4.0",
+    "eslint-plugin-jsdoc": "^50.6.1",
+    "eslint-plugin-named-import-spacing": "^1.0.3",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-sort-destructure-keys": "^2.0.0",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "eslint-plugin-typescript-sort-keys": "^3.3.0",
+    "sass": "^1.83.0",
+    "typescript-eslint": "^8.18.2"
   }
 }

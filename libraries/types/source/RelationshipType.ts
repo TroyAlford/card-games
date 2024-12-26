@@ -1,5 +1,5 @@
 export interface RelationshipType {
-	type: 'allied' | 'opponent' | 'neutral'
-	teamId: string
-	playerId?: string
-} 
+  playerId?: string,
+  teamId: string,
+  type: 'allied' | 'opponent' | 'neutral',
+}

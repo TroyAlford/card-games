@@ -1,58 +1,58 @@
+import type { Color } from './Color'
 import type { Effect } from './Effect'
 import type { Enchantment } from './Enchantment'
 import type { Modifier } from './Modifier'
-import type { Trigger } from './Trigger'
-import type { Color } from './Color'
 import type { Suit } from './Suit'
+import type { Trigger } from './Trigger'
 
 /**
  * Base interface for a card in any game.
  * This represents the serializable state of a card.
  */
 export interface ICard {
-	/** Unique identifier for this card instance */
-	id: string
+  /** Card's base properties */
+  base: {
+    /** Card's color (if applicable) */
+    color?: Color,
+    /** Card's cost to play (if applicable) */
+    cost?: number,
+    /** Card's rank or value */
+    rank?: number,
+    /** Card's suit (if applicable) */
+    suit?: Suit,
+  },
 
-	/** Display name of the card */
-	name: string
+  /** Card's effects when played/triggered */
+  effects: Effect[],
 
-	/** Card's base properties */
-	base: {
-		/** Card's suit (if applicable) */
-		suit?: Suit
-		/** Card's color (if applicable) */
-		color?: Color
-		/** Card's rank or value */
-		rank?: number
-		/** Card's cost to play (if applicable) */
-		cost?: number
-	}
+  /** Active enchantments on this card */
+  enchantments: Enchantment[],
 
-	/** Active modifiers affecting this card */
-	modifiers: Modifier[]
+  /** Whether the card is currently face up */
+  faceUp: boolean,
 
-	/** Active enchantments on this card */
-	enchantments: Enchantment[]
+  /** Unique identifier for this card instance */
+  id: string,
 
-	/** Card's effects when played/triggered */
-	effects: Effect[]
+  /** Card's current location */
+  location: {
+    /** ID of the area */
+    id: string,
+    /** Owner of the area */
+    ownerId?: string,
+    /** Type of area (hand, table, etc) */
+    type: string,
+  },
 
-	/** Event triggers this card responds to */
-	triggers: Trigger[]
+  /** Active modifiers affecting this card */
+  modifiers: Modifier[],
 
-	/** Whether the card is currently face up */
-	faceUp: boolean
+  /** Display name of the card */
+  name: string,
 
-	/** Whether the card can be played */
-	playable: boolean
+  /** Whether the card can be played */
+  playable: boolean,
 
-	/** Card's current location */
-	location: {
-		/** Type of area (hand, table, etc) */
-		type: string
-		/** ID of the area */
-		id: string
-		/** Owner of the area */
-		ownerId?: string
-	}
-} 
+  /** Event triggers this card responds to */
+  triggers: Trigger[],
+}

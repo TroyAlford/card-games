@@ -7,21 +7,21 @@ export type Phase = 'draw' | 'play' | 'discard' | 'end'
  * Configuration for a game phase.
  */
 export interface PhaseConfig {
-	/** Phase identifier */
-	id: Phase
+  /** Actions allowed during this phase */
+  allowedActions: string[],
 
-	/** Display name for the phase */
-	name: string
+  /** Phase description */
+  description: string,
 
-	/** Phase description */
-	description: string
+  /** Phase identifier */
+  id: Phase,
 
-	/** Whether the phase can be skipped */
-	optional: boolean
+  /** Display name for the phase */
+  name: string,
 
-	/** Actions allowed during this phase */
-	allowedActions: string[]
+  /** Whether the phase can be skipped */
+  optional: boolean,
 
-	/** Maximum duration in seconds (0 = no limit) */
-	timeLimit: number
-} 
+  /** Maximum duration in seconds (0 = no limit) */
+  timeLimit: number,
+}

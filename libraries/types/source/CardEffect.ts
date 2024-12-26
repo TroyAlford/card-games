@@ -6,8 +6,8 @@ import type { Trigger } from './Trigger'
  * Represents an effect specific to cards.
  */
 export interface CardEffect extends Effect {
-	/** Modifiers this effect applies */
-	modifiers?: Modifier[]
-	/** Triggers this effect creates */
-	triggers?: Trigger[]
-} 
+  /** Modifiers this effect applies */
+  modifiers?: Modifier[],
+  /** Triggers this effect creates */
+  triggers?: Trigger[],
+}

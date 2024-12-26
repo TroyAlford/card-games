@@ -1,34 +1,34 @@
-import { ICard } from './ICard'
-import { PlayArea } from '@card-games/game-engine'
-import { Phase } from '../Phase'
+import type { PlayArea } from '@card-games/game-engine'
+import type { Phase } from '../Phase'
+import type { ICard } from './ICard'
 
 export interface IPlayerView {
-	gameId: string
-	playerId: string
-	currentTurn: string
-	currentPhase: Phase
-	hand: ICard[]
-	table: ICard[]
-	visiblePlayAreas: PlayArea[]
-	isMyTurn: boolean
-	canPlay: boolean
-	otherPlayers: {
-		id: string
-		handSize: number
-		name: string
-		team?: string
-	}[]
-	status: 'waiting' | 'active' | 'finished'
-	visibleDrawSources: {
-		id: string
-		location: string
-		type: 'personal' | 'shared'
-		topCard?: ICard
-	}[]
-	enchantments: {
-		cardId?: string
-		playerId?: string
-		areaId?: string
-		effects: any[]
-	}[]
-} 
+  canPlay: boolean,
+  currentPhase: Phase,
+  currentTurn: string,
+  enchantments: {
+    areaId?: string,
+    cardId?: string,
+    effects: any[],
+    playerId?: string,
+  }[],
+  gameId: string,
+  hand: ICard[],
+  isMyTurn: boolean,
+  otherPlayers: {
+    handSize: number,
+    id: string,
+    name: string,
+    team?: string,
+  }[],
+  playerId: string,
+  status: 'waiting' | 'active' | 'finished',
+  table: ICard[],
+  visibleDrawSources: {
+    id: string,
+    location: string,
+    topCard?: ICard,
+    type: 'personal' | 'shared',
+  }[],
+  visiblePlayAreas: PlayArea[],
+}

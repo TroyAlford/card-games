@@ -4,15 +4,15 @@ import type { Event } from './Event'
  * Represents a turn in the game.
  */
 export interface Turn {
-	/** Player whose turn it is */
-	playerId: string
+  /** Events that occurred during this turn */
+  events: Event[],
 
-	/** Current phase of the turn */
-	phase: string
+  /** Current phase of the turn */
+  phase: string,
 
-	/** When the turn started */
-	startTime: number
+  /** Player whose turn it is */
+  playerId: string,
 
-	/** Events that occurred during this turn */
-	events: Event[]
-} 
+  /** When the turn started */
+  startTime: number,
+}

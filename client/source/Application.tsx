@@ -1,44 +1,44 @@
-import * as React from 'react';
-import { GameBoard } from '@card-games/components';
+import { GameBoard } from '@card-games/components'
+import * as React from 'react'
 
 interface ApplicationState {
-	dimensions: {
-		width: number
-		height: number
-	}
+  dimensions: {
+    height: number,
+    width: number,
+  },
 }
 
 export class Application extends React.Component<{}, ApplicationState> {
-	state = {
-		dimensions: {
-			width: window.innerWidth,
-			height: window.innerHeight
-		}
-	}
+  state = {
+    dimensions: {
+      height: window.innerHeight,
+      width: window.innerWidth,
+    },
+  }
 
-	private updateDimensions = () => {
-		this.setState({
-			dimensions: {
-				width: window.innerWidth,
-				height: window.innerHeight
-			}
-		})
-	}
+  private updateDimensions = () => {
+    this.setState({
+      dimensions: {
+        height: window.innerHeight,
+        width: window.innerWidth,
+      },
+    })
+  }
 
-	componentDidMount() {
-		window.addEventListener('resize', this.updateDimensions)
-	}
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions)
+  }
 
-	componentWillUnmount() {
-		window.removeEventListener('resize', this.updateDimensions)
-	}
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions)
+  }
 
-	render() {
-		const { width, height } = this.state.dimensions
-		return (
-			<div style={{ width: '100vw', height: '100vh', overflow: 'hidden' }}>
-				<GameBoard width={width} height={height} />
-			</div>
-		)
-	}
+  render() {
+    const { height, width } = this.state.dimensions
+    return (
+      <div style={{ height: '100vh', overflow: 'hidden', width: '100vw' }}>
+        <GameBoard height={height} width={width} />
+      </div>
+    )
+  }
 }

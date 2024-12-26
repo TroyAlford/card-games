@@ -29,4 +29,3 @@ export type { Color } from './source/Color'
 export type { Suit } from './source/Suit'
 export { STANDARD_COLORS } from './source/Color'
 export { STANDARD_SUITS } from './source/Suit'
-
