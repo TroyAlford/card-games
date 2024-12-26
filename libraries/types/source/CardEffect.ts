@@ -1,7 +1,13 @@
-import type { Modifier } from '@card-games/card-game/source/types/Modifier'
-import type { Trigger } from '@card-games/card-game/source/types/Trigger'
+import type { Effect } from './Effect'
+import type { Modifier } from './Modifier'
+import type { Trigger } from './Trigger'
 
-export interface CardEffect {
+/**
+ * Represents an effect specific to cards.
+ */
+export interface CardEffect extends Effect {
+	/** Modifiers this effect applies */
 	modifiers?: Modifier[]
+	/** Triggers this effect creates */
 	triggers?: Trigger[]
 } 

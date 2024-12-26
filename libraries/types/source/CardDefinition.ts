@@ -1,12 +1,26 @@
-import type { CardEffect } from '@card-games/card-game/source/types/CardEffect'
+import type { CardEffect } from './CardEffect'
+import type { Color } from './Color'
+import type { Suit } from './Suit'
 
+/**
+ * Represents the base definition of a card.
+ */
 export interface CardDefinition {
-	color?: string
-	effects?: CardEffect[]
-	id: string
+	/** Card's name */
 	name: string
-	rank: string
-	suit: string
+	/** Card's type */
 	type: string
-	value: number
+	/** Card's effects */
+	effects?: CardEffect[]
+	/** Card's base properties */
+	base: {
+		/** Card's suit (if applicable) */
+		suit?: Suit
+		/** Card's color (if applicable) */
+		color?: Color
+		/** Card's rank or value */
+		rank?: number
+		/** Card's cost to play (if applicable) */
+		cost?: number
+	}
 } 
