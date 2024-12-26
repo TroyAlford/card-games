@@ -4,11 +4,13 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"develop": "bun run --watch source/index.ts"
+		"develop": "bun run --watch ./index.ts"
 	},
 	"dependencies": {
 		"@card-games/types": "workspace:*",
-		"@card-games/utilities": "workspace:*"
+		"@card-games/utilities": "workspace:*",
+		"chokidar": "^4.0.3",
+		"sass": "^1.70.0"
 	},
 	"devDependencies": {
 		"bun-types": "latest",

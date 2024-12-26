@@ -10,10 +10,4 @@ export default [
       '@import/no-default-export': 'off',
     },
   },
-  {
-    files: ['**/vite.config.*'],
-    rules: {
-      '@import/no-default-export': 'off',
-    },
-  },
 ]

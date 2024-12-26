@@ -1,10 +1,15 @@
-import type * as Type from '@card-games/types'
-import type { WebSocket } from 'bun'
+import type { Game } from '@card-games/card-game'
+import type { ServerWebSocket } from 'bun'
+
+interface WebSocketData {
+  gameId?: string,
+  playerId: string,
+}
 
 export interface GameLobby {
   code: string,
-  gameState: Type.GameState,
+  game: Game,
   id: string,
   password?: string,
-  players: Map<string, WebSocket>,
+  players: Map<string, ServerWebSocket<WebSocketData>>,
 }
