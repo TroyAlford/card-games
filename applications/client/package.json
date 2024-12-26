@@ -10,6 +10,8 @@
     "@card-games/components": "workspace:*",
     "@card-games/types": "workspace:*",
     "konva": "^9.3.0",
+    "mobx": "^6.12.0",
+    "mobx-react": "^9.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-konva": "^18.2.10",
@@ -17,6 +19,8 @@
     "react-router-dom": "^7.1.1"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.23.9",
+    "babel-plugin-module-resolver": "^5.0.0",
     "@types/node": "^20.11.5",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",

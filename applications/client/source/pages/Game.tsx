@@ -1,67 +1,27 @@
-import type * as Type from '@card-games/types'
+import { observer } from 'mobx-react'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { GameBoard } from '../components/GameBoard/GameBoard'
+import type { ApplicationStore } from '../stores/ApplicationStore'
 import './Game.scss'
 
 interface Props {
   id: string,
+  store: ApplicationStore,
 }
 
-interface State {
-  error: string | null,
-  gameState: Type.PlayerGameState | null,
-  socket: WebSocket | null,
-}
-
-export class Game extends React.Component<Props, State> {
-  state: State = {
-    error: null,
-    gameState: null,
-    socket: null,
-  }
-
+@observer
+export class Game extends React.Component<Props> {
   override componentDidMount() {
-    const socket = new WebSocket('ws://localhost:8080')
-
-    socket.onopen = () => {
-      this.setState({ socket })
-      socket.send(JSON.stringify({
-        code: this.props.id,
-        type: 'JOIN_GAME',
-      }))
-    }
-
-    socket.onmessage = event => {
-      const data = JSON.parse(event.data)
-
-      switch (data.type) {
-        case 'ERROR':
-          this.setState({ error: data.error })
-          break
-
-        case 'GAME_JOINED':
-        case 'GAME_STATE_UPDATED':
-          this.setState({ gameState: data.gameState })
-          break
-      }
-    }
+    const { id, store } = this.props
+    store.joinGame(id)
   }
 
   override render() {
-    const { error, gameState } = this.state
+    const { id, store } = this.props
+    const { currentGame } = store
 
-    if (error) {
-      return (
-        <div className="game page">
-          <div className="error">
-            {error}
-          </div>
-        </div>
-      )
-    }
-
-    if (!gameState) {
+    if (!currentGame) {
       return (
         <div className="game page">
           <div className="loading">
@@ -74,8 +34,8 @@ export class Game extends React.Component<Props, State> {
     return (
       <div className="game page">
         <GameBoard
-          gameCode={this.props.id}
-          gameState={gameState}
+          gameCode={id}
+          gameState={currentGame}
         />
       </div>
     )
@@ -83,7 +43,12 @@ export class Game extends React.Component<Props, State> {
 }
 
 // Wrapper to get URL parameters
-export function GameWithParams() {
+/**
+ *
+ * @param root0
+ * @param root0.store
+ */
+export function GameWithParams({ store }: { store: ApplicationStore }) {
   const { id } = useParams<{ id: string }>()
-  return <Game id={id ?? ''} />
-} 
+  return <Game id={id ?? ''} store={store} />
+}

@@ -1,70 +1,39 @@
-import type * as Type from '@card-games/types'
+import { observer } from 'mobx-react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import type { ApplicationStore } from '../stores/ApplicationStore'
 import './Lobby.scss'
+
+interface Props {
+  store: ApplicationStore,
+}
 
 interface State {
   code: string,
   error: string | null,
   password: string,
   showJoinGame: boolean,
-  socket: WebSocket | null,
 }
 
-export class Lobby extends React.Component<object, State> {
+@observer
+export class Lobby extends React.Component<Props, State> {
   state: State = {
     code: '',
     error: null,
     password: '',
     showJoinGame: false,
-    socket: null,
-  }
-
-  override componentDidMount() {
-    const socket = new WebSocket('ws://localhost:8080')
-
-    socket.onopen = () => {
-      this.setState({ socket })
-    }
-
-    socket.onmessage = event => {
-      const data = JSON.parse(event.data)
-
-      switch (data.type) {
-        case 'GAME_CREATED':
-          window.location.href = `/game/${data.code}`
-          break
-
-        case 'ERROR':
-          this.setState({ error: data.error })
-          break
-
-        case 'GAME_JOINED':
-          window.location.href = `/game/${this.state.code}`
-          break
-      }
-    }
   }
 
   private handleCreateGame = () => {
-    const { password, socket } = this.state
-    if (!socket) return
-
-    socket.send(JSON.stringify({
-      password,
-      type: 'CREATE_GAME',
-    }))
+    const { password } = this.state
+    const { store } = this.props
+    store.createGame(password)
   }
 
   private handleJoinGame = () => {
-    const { code, password, socket } = this.state
-    if (!socket) return
-
-    socket.send(JSON.stringify({
-      code,
-      password,
-      type: 'JOIN_GAME',
-    }))
+    const { code, password } = this.state
+    const { store } = this.props
+    store.joinGame(code, password)
   }
 
   override render() {
@@ -121,4 +90,4 @@ export class Lobby extends React.Component<object, State> {
       </div>
     )
   }
-} 
+}

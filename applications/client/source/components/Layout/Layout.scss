@@ -1,0 +1,63 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+
+  header {
+    align-items: center;
+    background-color: $color-primary;
+    color: white;
+    display: flex;
+    height: 50px;
+    justify-content: space-between;
+    padding: 0 $spacing-unit;
+
+    .user-info {
+      align-items: center;
+      display: flex;
+      gap: $spacing-unit;
+
+      .display-name {
+        font-weight: bold;
+      }
+
+      .connection-status {
+        border-radius: 50%;
+        height: 12px;
+        width: 12px;
+
+        &.connected {
+          background-color: #4caf50;
+        }
+
+        &.connecting {
+          background-color: #ffc107;
+        }
+
+        &.disconnected {
+          background-color: #f44336;
+        }
+      }
+    }
+
+    .game-info {
+      a {
+        color: white;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  main {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+} 
