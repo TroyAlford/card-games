@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "workspaces": [
+    "applications/*",
     "libraries/*",
-    "client",
     "games/*"
   ],
   "scripts": {

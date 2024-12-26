@@ -37,29 +37,20 @@
 		"baseUrl": ".",
 		"paths": {
 			"@card-games/game-engine": [
-				"libraries/game-engine/source"
-			],
-			"@card-games/game-engine/*": [
-				"libraries/game-engine/source/*"
+				"libraries/game-engine"
 			],
 			"@card-games/card-game": [
-				"libraries/card-game/source"
-			],
-			"@card-games/card-game/*": [
-				"libraries/card-game/source/*"
+				"libraries/card-game"
 			],
 			"@card-games/client": [
-				"client/src"
-			],
-			"@card-games/client/*": [
-				"client/src/*"
+				"client"
 			]
 		}
 	},
 	"include": [
+		"client/source/**/*",
 		"libraries/*/source/**/*",
 		"games/*/source/**/*",
-		"client/src/**/*"
 	],
 	"exclude": [
 		"node_modules",
