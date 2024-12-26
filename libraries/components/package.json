@@ -7,6 +7,7 @@
 	"dependencies": {
 		"@card-games/types": "workspace:*",
 		"react": "^19.0.0",
-		"react-dom": "^19.0.0"
+		"react-dom": "^19.0.0",
+		"react-konva": "^19.0.1"
 	}
 }

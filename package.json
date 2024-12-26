@@ -8,7 +8,7 @@
     "games/*"
   ],
   "scripts": {
-    "develop": "concurrently -n client -c 'bgBlue.bold' \"bun run --cwd client develop\""
+    "develop": "concurrently -n client -c 'bgBlue.bold' \"bun run --cwd applications/client develop\""
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

@@ -1,21 +1,13 @@
 import react from '@vitejs/plugin-react'
-import { resolve } from 'path'
+import path from 'path'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  plugins: [
-    react({
-      babel: {
-        parserOpts: {
-          plugins: ['decorators-legacy', 'classProperties'],
-        },
-      },
-    }),
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
-      '@card-games/card-game': resolve(__dirname, '../libraries/card-game'),
-      '@card-games/game-engine': resolve(__dirname, '../libraries/game-engine'),
+      '@card-games/components': path.resolve(__dirname, '../../libraries/components/source'),
+      '@card-games/types': path.resolve(__dirname, '../../libraries/types/source'),
     },
   },
 })
