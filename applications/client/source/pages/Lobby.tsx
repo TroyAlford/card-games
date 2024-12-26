@@ -1,12 +1,7 @@
 import { observer } from 'mobx-react'
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import type { ApplicationStore } from '../stores/ApplicationStore'
+import * as React from 'react'
+import { ApplicationContext } from '../contexts/ApplicationContext'
 import './Lobby.scss'
-
-interface Props {
-  store: ApplicationStore,
-}
 
 interface State {
   code: string,
@@ -16,7 +11,10 @@ interface State {
 }
 
 @observer
-export class Lobby extends React.Component<Props, State> {
+export class Lobby extends React.Component<object, State> {
+  static contextType = ApplicationContext
+  declare context: React.ContextType<typeof ApplicationContext>
+
   state: State = {
     code: '',
     error: null,
@@ -26,13 +24,13 @@ export class Lobby extends React.Component<Props, State> {
 
   private handleCreateGame = () => {
     const { password } = this.state
-    const { store } = this.props
+    const { store } = this.context
     store.createGame(password)
   }
 
   private handleJoinGame = () => {
     const { code, password } = this.state
-    const { store } = this.props
+    const { store } = this.context
     store.joinGame(code, password)
   }
 

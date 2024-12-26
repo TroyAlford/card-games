@@ -1,18 +1,21 @@
 import { observer } from 'mobx-react'
-import React from 'react'
+import * as React from 'react'
 import { Link } from 'react-router-dom'
-import type { ApplicationStore } from '../../stores/ApplicationStore'
+import { ApplicationContext } from '../../contexts/ApplicationContext'
 import './Layout.scss'
 
 interface Props {
   children: React.ReactNode,
-  store: ApplicationStore,
 }
 
 @observer
 export class Layout extends React.Component<Props> {
+  static contextType = ApplicationContext
+  declare context: React.ContextType<typeof ApplicationContext>
+
   override render() {
-    const { children, store } = this.props
+    const { children } = this.props
+    const { store } = this.context
     const { connectionStatus, currentGame, displayName } = store
 
     return (

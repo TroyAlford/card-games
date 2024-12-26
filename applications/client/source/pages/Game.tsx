@@ -1,32 +1,34 @@
 import { observer } from 'mobx-react'
-import React from 'react'
-import { useParams } from 'react-router-dom'
+import * as React from 'react'
+import { Navigate } from 'react-router-dom'
 import { GameBoard } from '../components/GameBoard/GameBoard'
-import type { ApplicationStore } from '../stores/ApplicationStore'
+import { ApplicationContext } from '../contexts/ApplicationContext'
 import './Game.scss'
 
 interface Props {
-  id: string,
-  store: ApplicationStore,
+  id?: string,
 }
 
 @observer
 export class Game extends React.Component<Props> {
+  static contextType = ApplicationContext
+  declare context: React.ContextType<typeof ApplicationContext>
+
   override componentDidMount() {
-    const { id, store } = this.props
-    store.joinGame(id)
+    const { id } = this.props
+    if (id) this.context.store.joinGame(id)
   }
 
   override render() {
-    const { id, store } = this.props
+    const { id } = this.props
+    const { store } = this.context
     const { currentGame } = store
 
+    if (!id?.trim()) return <Navigate to="/lobby" />
     if (!currentGame) {
       return (
         <div className="game page">
-          <div className="loading">
-            Loading game...
-          </div>
+          <div className="loading">Loading...</div>
         </div>
       )
     }
@@ -40,15 +42,4 @@ export class Game extends React.Component<Props> {
       </div>
     )
   }
-}
-
-// Wrapper to get URL parameters
-/**
- *
- * @param root0
- * @param root0.store
- */
-export function GameWithParams({ store }: { store: ApplicationStore }) {
-  const { id } = useParams<{ id: string }>()
-  return <Game id={id ?? ''} store={store} />
 }
