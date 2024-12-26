@@ -8,11 +8,12 @@
     "games/*"
   ],
   "scripts": {
-    "develop": "concurrently -n client -c 'bgBlue.bold' \"bun run --cwd applications/client develop\""
+    "develop": "concurrently -n client,server -c 'bgBlue.bold,bgGreen.bold' \"bun run --cwd applications/client develop\" \"bun run --cwd applications/server develop\""
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
     "@stylistic/eslint-plugin": "^2.12.1",
+    "@types/bun": "^1.1.14",
     "basis": "TroyAlford/basis",
     "chokidar": "^4.0.3",
     "concurrently": "^9.1.0",

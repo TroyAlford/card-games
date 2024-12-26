@@ -2,13 +2,37 @@
 @use '../../styles/mixins' as *;
 
 .game-board.component {
-  @include flex-center;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   width: 100vw;
 
   .stage {
     background-color: $color-background;
-    height: 100%;
-    width: 100%;
+    flex-grow: 1;
+  }
+
+  .other-players,
+  .common-area,
+  .player-area {
+    display: flex;
+    justify-content: center;
+    padding: $spacing-unit;
+  }
+
+  .other-players {
+    display: flex;
+    gap: $spacing-large;
+    justify-content: space-around;
+  }
+
+  .game-info {
+    align-items: center;
+    background-color: $color-primary;
+    color: white;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    padding: $spacing-unit;
   }
 } 

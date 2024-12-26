@@ -1,0 +1,75 @@
+@use 'sass:color' as color;
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.lobby.page {
+  @include flex-center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+
+  h1 {
+    color: $color-primary;
+    margin-bottom: $spacing-large;
+  }
+
+  h2 {
+    color: $color-secondary;
+    margin-bottom: $spacing-unit;
+  }
+
+  .error {
+    background-color: #ffebee;
+    border: 1px solid #ef9a9a;
+    border-radius: $border-radius;
+    color: #c62828;
+    margin-bottom: $spacing-unit;
+    padding: $spacing-unit;
+  }
+
+  .join-game,
+  .create-game {
+    @include flex-center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+
+    input {
+      border: 1px solid $color-secondary;
+      border-radius: $border-radius;
+      font-size: 1rem;
+      margin-bottom: $spacing-unit;
+      padding: $spacing-unit;
+      width: 100%;
+
+      &:focus {
+        border-color: $color-accent;
+        outline: none;
+      }
+    }
+
+    button {
+      background-color: $color-accent;
+      border: none;
+      border-radius: $border-radius;
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: $spacing-unit;
+      padding: $spacing-unit $spacing-large;
+      width: 100%;
+
+      &:hover {
+        background-color: color.adjust($color-accent, $lightness: -10%);
+      }
+
+      &:last-child {
+        background-color: $color-secondary;
+
+        &:hover {
+          background-color: color.adjust($color-secondary, $lightness: -10%);
+        }
+      }
+    }
+  }
+} 

@@ -1,0 +1,27 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.game.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+
+  .error {
+    @include flex-center;
+    background-color: #ffebee;
+    border: 1px solid #ef9a9a;
+    border-radius: $border-radius;
+    color: #c62828;
+    margin: $spacing-large;
+    padding: $spacing-unit;
+  }
+
+  .loading {
+    @include flex-center;
+    color: $color-secondary;
+    font-size: 1.2rem;
+    height: 100%;
+    width: 100%;
+  }
+} 

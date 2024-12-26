@@ -6,8 +6,8 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@card-games/components': path.resolve(__dirname, '../../libraries/components/source'),
-      '@card-games/types': path.resolve(__dirname, '../../libraries/types/source'),
+      '@card-games/components': path.resolve(__dirname, '../../libraries/components'),
+      '@card-games/types': path.resolve(__dirname, '../../libraries/types'),
     },
   },
 })

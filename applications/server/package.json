@@ -1,5 +1,17 @@
 {
 	"name": "@card-games/server",
-	"version": "0.0.1",
-	"private": true
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"develop": "bun run --watch source/index.ts"
+	},
+	"dependencies": {
+		"@card-games/types": "workspace:*",
+		"@card-games/utilities": "workspace:*"
+	},
+	"devDependencies": {
+		"bun-types": "latest",
+		"typescript": "^5.2.2"
+	}
 }
