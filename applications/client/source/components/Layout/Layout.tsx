@@ -21,7 +21,7 @@ export class Layout extends React.Component<Props> {
       <div className="layout">
         <header>
           <div className="user-info">
-            <span className="display-name">
+            <span className="name">
               {profile?.name}
             </span>
             <div className={`connection-status ${connectionStatus}`} />

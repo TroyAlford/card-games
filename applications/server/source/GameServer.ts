@@ -96,6 +96,7 @@ export class GameServer {
 
   dispose() {
     this.server.stop()
+    this.ws.dispose()
     this.assets.dispose()
   }
 }

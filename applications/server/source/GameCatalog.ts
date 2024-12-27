@@ -11,7 +11,7 @@ export class GameCatalog {
     return this.#singleton
   }
 
-  private gameFactory = GameFactory.singleton()
+  private catalog = GameFactory.singleton()
   private loadErrors: string[] = []
 
   async initialize(): Promise<void> {
@@ -33,7 +33,7 @@ export class GameCatalog {
         try {
           const module = await import(`@card-games/${moduleName}`)
           if (module.GameClass) {
-            this.gameFactory.register(module.GameClass)
+            this.catalog.register(module.GameClass)
           }
         } catch {
           this.loadErrors.push(`Failed to load game module ${moduleName}`)

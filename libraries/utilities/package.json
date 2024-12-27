@@ -1,6 +1,9 @@
 {
   "name": "@card-games/utilities",
   "private": true,
+  "exports": {
+    ".": "./index.ts"
+  },
   "type": "module",
   "version": "0.0.1"
 } 

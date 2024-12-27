@@ -2,11 +2,11 @@ import { GameServer } from './source/GameServer'
 
 const server = GameServer.singleton()
 
-process.on('SIGKILL', () => {
+const dispose = () => {
   server.dispose()
   process.exit(0)
-})
-process.on('SIGINT', () => {
-  server.dispose()
-  process.exit(0)
-})
+}
+
+process.on('SIGTERM', dispose)
+process.on('SIGKILL', dispose)
+process.on('SIGINT', dispose)
