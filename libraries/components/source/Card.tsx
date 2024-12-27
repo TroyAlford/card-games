@@ -1,4 +1,4 @@
-import * as Type from '@card-games/types'
+import type * as Type from '@card-games/types'
 import React from 'react'
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 export class Card extends React.Component<Props> {
   override render() {
     const { card } = this.props
-    const isRed = card.suit === Type.Suit.Hearts || card.suit === Type.CardSuit.Diamonds
+    const isRed = true
 
     return (
       <div
@@ -64,19 +64,6 @@ export class Card extends React.Component<Props> {
   }
 
   private getSuitSymbol() {
-    const { card } = this.props
-
-    switch (card.suit) {
-      case Type.CardSuit.Hearts:
-        return '♥'
-      case Type.CardSuit.Diamonds:
-        return '♦'
-      case Type.CardSuit.Clubs:
-        return '♣'
-      case Type.CardSuit.Spades:
-        return '♠'
-      default:
-        return ''
-    }
+    return '♥'
   }
 }

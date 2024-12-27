@@ -2,14 +2,17 @@ import { GameFactory } from '@card-games/card-game'
 import { uniqueId } from '@card-games/utilities'
 import type { ServerWebSocket } from 'bun'
 import type { GameLobby } from '../types/GameLobby'
+import type { UserProfile } from '../types/UserProfile'
 
 export interface WebSocketData {
+  connectionId: string,
   gameId?: string,
-  playerId: string,
+  profile: UserProfile,
 }
 
 export class WebSocketController {
   private static instance: WebSocketController
+  private connections = new Map<string, ServerWebSocket<WebSocketData>>()
   private gameFactory = GameFactory.singleton()
   private games = new Map<string, GameLobby>()
 
@@ -20,17 +23,26 @@ export class WebSocketController {
     return WebSocketController.instance
   }
 
-  handleOpen(ws: ServerWebSocket<WebSocketData>): void {
-    ws.data = {
-      playerId: uniqueId(),
+  onConnect = (ws: ServerWebSocket<WebSocketData>): void => {
+    const connectionId = uniqueId()
+    const { profile } = ws.data
+
+    try {
+      ws.data = {
+        connectionId,
+        profile,
+      }
+
+      this.connections.set(connectionId, ws)
+      ws.send(JSON.stringify({
+        type: 'CONNECTED',
+      }))
+    } catch {
+      ws.close()
     }
-    ws.send(JSON.stringify({
-      playerId: ws.data.playerId,
-      type: 'CONNECTED',
-    }))
   }
 
-  handleMessage(ws: ServerWebSocket<WebSocketData>, message: string): void {
+  onMessage = (ws: ServerWebSocket<WebSocketData>, message: string): void => {
     try {
       const data = JSON.parse(message)
 
@@ -38,7 +50,7 @@ export class WebSocketController {
         case 'CREATE_GAME': {
           const game = this.createGame(data.gameType, data.password)
           ws.data.gameId = game.id
-          game.players.set(ws.data.playerId, ws)
+          game.players.set(ws.data.profile.id, ws as ServerWebSocket<WebSocketData>)
           ws.send(JSON.stringify({
             code: game.code,
             gameId: game.id,
@@ -66,7 +78,7 @@ export class WebSocketController {
           }
 
           ws.data.gameId = game.id
-          game.players.set(ws.data.playerId, ws)
+          game.players.set(ws.data.profile.id, ws as ServerWebSocket<WebSocketData>)
           ws.send(JSON.stringify({
             gameId: game.id,
             type: 'GAME_JOINED',
@@ -74,8 +86,10 @@ export class WebSocketController {
 
           // Notify other players
           game.players.forEach((player, id) => {
-            if (id !== ws.data.playerId) {
+            if (id !== ws.data.profile.id) {
               player.send(JSON.stringify({
+                playerId: ws.data.profile.id,
+                profile: ws.data.profile,
                 type: 'PLAYER_JOINED',
               }))
             }

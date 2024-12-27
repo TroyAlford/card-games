@@ -1,10 +1,6 @@
 import type { Game } from '@card-games/card-game'
 import type { ServerWebSocket } from 'bun'
-
-interface WebSocketData {
-  gameId?: string,
-  playerId: string,
-}
+import type { WebSocketData } from '../controllers/WebSocketController'
 
 export interface GameLobby {
   code: string,

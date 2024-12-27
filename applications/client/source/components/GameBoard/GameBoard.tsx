@@ -1,20 +1,19 @@
 import { PlayArea } from '@card-games/components'
-import type * as Type from '@card-games/types'
 import React from 'react'
 import { Group, Layer, Stage } from 'react-konva'
+import { Navigate } from 'react-router'
+import { ApplicationContext } from 'source/contexts/ApplicationContext'
 import './GameBoard.scss'
-
-interface Props {
-  gameCode: string,
-  gameState: Type.PlayerGameState,
-}
 
 interface State {
   height: number,
   width: number,
 }
 
-export class GameBoard extends React.Component<Props, State> {
+export class GameBoard extends React.Component<{}, State> {
+  static contextType = ApplicationContext
+  declare context: React.ContextType<typeof ApplicationContext>
+
   state: State = {
     height: window.innerHeight - 40, // Subtract footer height
     width: window.innerWidth,
@@ -36,7 +35,10 @@ export class GameBoard extends React.Component<Props, State> {
   }
 
   override render() {
-    const { gameCode, gameState } = this.props
+    const { currentGame } = this.context
+    if (!currentGame?.state) return <Navigate to="/lobby" />
+
+    const { commonArea, otherPlayers = [], player: currentPlayer } = currentGame.state
     const { height, width } = this.state
     const sectionHeight = height / 3
 
@@ -46,27 +48,29 @@ export class GameBoard extends React.Component<Props, State> {
           <Layer>
             {/* Other Players Area (Top 1/3) */}
             <Group y={0}>
-              {gameState.otherPlayers.map((player, index) => (
+              {otherPlayers.map((player, index) => (
                 <PlayArea
                   key={player.id}
                   playArea={player.playArea}
-                  x={((index + 1) * width) / (gameState.otherPlayers.length + 1)}
+                  x={((index + 1) * width) / (otherPlayers.length + 1)}
                   y={sectionHeight / 2}
                 />
               ))}
             </Group>
             {/* Common Area (Middle 1/3) */}
-            <Group y={sectionHeight}>
-              <PlayArea
-                playArea={gameState.commonArea}
-                x={width / 2}
-                y={sectionHeight / 2}
-              />
-            </Group>
+            {commonArea && (
+              <Group y={sectionHeight}>
+                <PlayArea
+                  playArea={commonArea}
+                  x={width / 2}
+                  y={sectionHeight / 2}
+                />
+              </Group>
+            )}
             {/* Current Player Area (Bottom 1/3) */}
             <Group y={sectionHeight * 2}>
               <PlayArea
-                playArea={gameState.player.playArea}
+                playArea={currentPlayer?.playArea}
                 x={width / 2}
                 y={sectionHeight / 2}
               />
@@ -75,8 +79,7 @@ export class GameBoard extends React.Component<Props, State> {
         </Stage>
         <footer className="game-info">
           <span>
-            Game Code:
-            {gameCode}
+            {`Game Code: ${currentGame?.state?.id}`}
           </span>
         </footer>
       </div>

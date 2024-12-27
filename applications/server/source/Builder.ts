@@ -113,6 +113,17 @@ export class Builder {
         sourcemap: 'external',
         target: 'browser',
       }).then(async build => {
+        // Log any build errors
+        if (build.logs.length > 0) {
+          console.error('[BUILD] Errors:', build.logs)
+        }
+
+        // Check for build success
+        if (!build.success) {
+          console.error('[BUILD] Failed:', build.logs)
+          return []
+        }
+
         const outputs = build.outputs
           .filter(o => o.kind === 'entry-point')
           .map<BuildOutput>((output, index) => ({
@@ -122,11 +133,14 @@ export class Builder {
 
         await this.#onRebuild?.(outputs)
         return outputs
+      }).catch(error => {
+        console.error('[BUILD] Error:', error)
+        return []
       })
 
       return this.#build
     } catch (error) {
-      console.error('[HMR] Build failed:', error)
+      console.error('[BUILD] Error:', error)
       return []
     }
   }
@@ -142,6 +156,7 @@ export class Builder {
       ? filePath
       : path.join(this.#root, filePath)
 
+    console.log(`[BUILD] Adding entrypoint: ${name} -> ${absolute}`)
     this.#entrypoints.push([name, absolute])
     // Don't rebuild immediately - just track the entrypoint
     return this

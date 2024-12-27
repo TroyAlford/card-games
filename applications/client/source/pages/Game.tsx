@@ -9,7 +9,8 @@ interface Props {
   id?: string,
 }
 
-export @observer class Game extends React.Component<Props> {
+@observer
+export class Game extends React.Component<Props> {
   static contextType = ApplicationContext
   declare context: React.ContextType<typeof ApplicationContext>
 
@@ -33,10 +34,7 @@ export @observer class Game extends React.Component<Props> {
 
     return (
       <div className="game page">
-        <GameBoard
-          gameCode={id}
-          gameState={currentGame}
-        />
+        <GameBoard />
       </div>
     )
   }

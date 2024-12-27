@@ -26,20 +26,17 @@ export class Lobby extends React.Component<object, State> {
   }
 
   override componentDidMount() {
-    const { store } = this.context
-    store.getAvailableGames()
+    this.context.getAvailableGames()
   }
 
   private handleCreateGame = () => {
     const { gameType, password } = this.state
-    const { store } = this.context
-    store.createGame(gameType, password)
+    this.context.createGame(gameType, password)
   }
 
   private handleJoinGame = () => {
     const { code, password } = this.state
-    const { store } = this.context
-    store.joinGame(code, password)
+    this.context.joinGame(code, password)
   }
 
   override render() {
@@ -51,8 +48,7 @@ export class Lobby extends React.Component<object, State> {
       showJoinGame,
     } = this.state
 
-    const { store } = this.context
-    const { availableGames, currentGame } = store
+    const { availableGames, currentGame } = this.context
 
     if (currentGame) {
       return <Navigate to={`/game/${currentGame.id}`} />

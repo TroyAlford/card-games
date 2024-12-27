@@ -1,9 +1,17 @@
 import type { GameDescription } from '@card-games/card-game/source/types/GameDescription'
+import type { PlayerGameState } from '@card-games/types'
+import { fetch } from '@card-games/utilities'
 import { makeObservable, observable } from 'mobx'
 
 type ConnectionStatus = 'connected' | 'connecting' | 'disconnected'
 
 interface CurrentGame {
+  id: string,
+  name: string,
+  state?: PlayerGameState,
+}
+
+interface UserProfile {
   id: string,
   name: string,
 }
@@ -18,8 +26,9 @@ export class ApplicationStore {
   @observable availableGames: GameDescription[] = []
   @observable connectionStatus: ConnectionStatus = 'connecting'
   @observable currentGame: CurrentGame | null = null
-  @observable displayName = 'Player'
   @observable error: string | null = null
+  @observable profile: UserProfile | null = null
+
   private socket: WebSocket | null = null
 
   constructor() {
@@ -45,7 +54,7 @@ export class ApplicationStore {
 
       switch (data.type) {
         case 'CONNECTED': {
-          this.displayName = `Player ${data.playerId}`
+          this.profile = data.profile
           break
         }
 
@@ -54,7 +63,13 @@ export class ApplicationStore {
           this.currentGame = {
             id: data.gameId,
             name: 'Game',
+            state: data.gameState,
           }
+          break
+        }
+
+        case 'GAME_STATE': {
+          if (this.currentGame) this.currentGame.state = data.gameState
           break
         }
 

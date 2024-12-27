@@ -15,14 +15,14 @@ export class Layout extends React.Component<Props> {
 
   override render() {
     const { children } = this.props
-    const { connectionStatus, currentGame, displayName } = this.context
+    const { connectionStatus, currentGame, profile } = this.context
 
     return (
       <div className="layout">
         <header>
           <div className="user-info">
             <span className="display-name">
-              {displayName}
+              {profile?.name}
             </span>
             <div className={`connection-status ${connectionStatus}`} />
           </div>

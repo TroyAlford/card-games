@@ -1,1 +1,2 @@
-export { uniqueId } from './source/uniqueId'
+export * from './source/fetch'
+export * from './source/uniqueId'
