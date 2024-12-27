@@ -9,20 +9,18 @@ interface Props {
   id?: string,
 }
 
-@observer
-export class Game extends React.Component<Props> {
+export @observer class Game extends React.Component<Props> {
   static contextType = ApplicationContext
   declare context: React.ContextType<typeof ApplicationContext>
 
   override componentDidMount() {
     const { id } = this.props
-    if (id) this.context.store.joinGame(id)
+    if (id) this.context.joinGame(id)
   }
 
   override render() {
     const { id } = this.props
-    const { store } = this.context
-    const { currentGame } = store
+    const { currentGame } = this.context
 
     if (!id?.trim()) return <Navigate to="/lobby" />
     if (!currentGame) {

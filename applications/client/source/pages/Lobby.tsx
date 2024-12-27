@@ -1,11 +1,13 @@
 import { observer } from 'mobx-react'
 import * as React from 'react'
+import { Navigate } from 'react-router-dom'
 import { ApplicationContext } from '../contexts/ApplicationContext'
 import './Lobby.scss'
 
 interface State {
   code: string,
   error: string | null,
+  gameType: string,
   password: string,
   showJoinGame: boolean,
 }
@@ -18,14 +20,20 @@ export class Lobby extends React.Component<object, State> {
   state: State = {
     code: '',
     error: null,
+    gameType: '',
     password: '',
     showJoinGame: false,
   }
 
-  private handleCreateGame = () => {
-    const { password } = this.state
+  override componentDidMount() {
     const { store } = this.context
-    store.createGame(password)
+    store.getAvailableGames()
+  }
+
+  private handleCreateGame = () => {
+    const { gameType, password } = this.state
+    const { store } = this.context
+    store.createGame(gameType, password)
   }
 
   private handleJoinGame = () => {
@@ -38,9 +46,17 @@ export class Lobby extends React.Component<object, State> {
     const {
       code,
       error,
+      gameType,
       password,
       showJoinGame,
     } = this.state
+
+    const { store } = this.context
+    const { availableGames, currentGame } = store
+
+    if (currentGame) {
+      return <Navigate to={`/game/${currentGame.id}`} />
+    }
 
     return (
       <div className="lobby page">
@@ -73,13 +89,36 @@ export class Lobby extends React.Component<object, State> {
         ) : (
           <div className="create-game">
             <h2>Create Game</h2>
+            <select
+              value={gameType}
+              onChange={e => this.setState({ gameType: e.target.value })}
+            >
+              <option value="">Select a game</option>
+              {availableGames.map(game => (
+                <option key={game.id} value={game.id}>
+                  {game.name}
+                  {' '}
+                  (
+                  {game.minPlayers}
+                  -
+                  {game.maxPlayers}
+                  {' '}
+                  players)
+                </option>
+              ))}
+            </select>
             <input
               placeholder="Enter password (optional)"
               type="password"
               value={password}
               onChange={e => this.setState({ password: e.target.value })}
             />
-            <button onClick={this.handleCreateGame}>Create Game</button>
+            <button
+              disabled={!gameType}
+              onClick={this.handleCreateGame}
+            >
+              Create Game
+            </button>
             <button onClick={() => this.setState({ showJoinGame: true })}>
               Join Existing Game
             </button>

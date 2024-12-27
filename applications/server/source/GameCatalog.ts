@@ -3,23 +3,23 @@ import { readdir } from 'node:fs/promises'
 import { join } from 'node:path'
 
 export class GameCatalog {
-  private static instance: GameCatalog
+  static #singleton: GameCatalog
+  static singleton(): GameCatalog {
+    if (!this.#singleton) {
+      this.#singleton = new GameCatalog()
+    }
+    return this.#singleton
+  }
+
   private gameFactory = GameFactory.singleton()
   private loadErrors: string[] = []
-
-  static singleton(): GameCatalog {
-    if (!GameCatalog.instance) {
-      GameCatalog.instance = new GameCatalog()
-    }
-    return GameCatalog.instance
-  }
 
   async initialize(): Promise<void> {
     this.loadErrors = []
 
     // Get the workspace root directory
     const workspaceRoot = process.cwd()
-    const gamesDir = join(workspaceRoot, '..', '..', 'games')
+    const gamesDir = join(workspaceRoot, '../../games')
 
     try {
       // Read all directories in the games folder

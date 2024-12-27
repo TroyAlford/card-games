@@ -1,67 +1,97 @@
-import type * as Type from '@card-games/types'
-import { makeAutoObservable } from 'mobx'
+import type { GameDescription } from '@card-games/card-game/source/types/GameDescription'
+import { makeObservable, observable } from 'mobx'
 
-export type ConnectionStatus = 'connected' | 'connecting' | 'disconnected'
+type ConnectionStatus = 'connected' | 'connecting' | 'disconnected'
+
+interface CurrentGame {
+  id: string,
+  name: string,
+}
 
 export class ApplicationStore {
-  connectionStatus: ConnectionStatus = 'disconnected'
-  currentGame: Type.PlayerGameState | null = null
-  displayName = 'Player'
-  socket: WebSocket | null = null
+  static #singleton: ApplicationStore
+  static singleton() {
+    if (!this.#singleton) this.#singleton = new ApplicationStore()
+    return this.#singleton
+  }
+
+  @observable availableGames: GameDescription[] = []
+  @observable connectionStatus: ConnectionStatus = 'connecting'
+  @observable currentGame: CurrentGame | null = null
+  @observable displayName = 'Player'
+  @observable error: string | null = null
+  private socket: WebSocket | null = null
 
   constructor() {
-    makeAutoObservable(this)
+    makeObservable(this)
     this.connect()
   }
 
-  private connect() {
+  connect(): void {
+    this.socket = new WebSocket(`ws://${window.location.host}/ws`)
     this.connectionStatus = 'connecting'
-    const socket = new WebSocket('ws://localhost:8080')
 
-    socket.onopen = () => {
+    this.socket.onopen = () => {
       this.connectionStatus = 'connected'
-      this.socket = socket
     }
 
-    socket.onclose = () => {
+    this.socket.onclose = () => {
       this.connectionStatus = 'disconnected'
-      this.socket = null
-      // Attempt to reconnect after a delay
-      setTimeout(() => this.connect(), 5000)
+      setTimeout(() => this.connect(), 1000)
     }
 
-    socket.onmessage = event => {
+    this.socket.onmessage = event => {
       const data = JSON.parse(event.data)
 
       switch (data.type) {
-        case 'GAME_JOINED':
-        case 'GAME_STATE_UPDATED':
-          this.currentGame = data.gameState
+        case 'CONNECTED': {
+          this.displayName = `Player ${data.playerId}`
           break
+        }
+
+        case 'GAME_CREATED':
+        case 'GAME_JOINED': {
+          this.currentGame = {
+            id: data.gameId,
+            name: 'Game',
+          }
+          break
+        }
+
+        case 'ERROR': {
+          this.error = data.error
+          break
+        }
       }
     }
   }
 
-  createGame(password?: string) {
-    if (!this.socket) return
-
-    this.socket.send(JSON.stringify({
+  createGame(gameType: string, password?: string): void {
+    this.socket?.send(JSON.stringify({
+      gameType,
       password,
       type: 'CREATE_GAME',
     }))
   }
 
-  joinGame(code: string, password?: string) {
-    if (!this.socket) return
+  async getAvailableGames(): Promise<void> {
+    try {
+      const response = await fetch('/api/games')
+      if (!response.ok) throw new Error('Failed to fetch games')
+      const games = await response.json()
+      this.availableGames = games
+      this.error = null
+    } catch {
+      this.error = 'Failed to fetch available games'
+      this.availableGames = []
+    }
+  }
 
-    this.socket.send(JSON.stringify({
+  joinGame(code: string, password?: string): void {
+    this.socket?.send(JSON.stringify({
       code,
       password,
       type: 'JOIN_GAME',
     }))
-  }
-
-  setDisplayName(name: string) {
-    this.displayName = name
   }
 }

@@ -9,22 +9,19 @@ const headers = {
 }
 
 export class GameController {
-  private static instance: GameController
-  private factory = GameFactory.singleton()
-
+  static #singleton: GameController
   static singleton(): GameController {
-    if (!GameController.instance) {
-      GameController.instance = new GameController()
-    }
-    return GameController.instance
+    if (!this.#singleton) this.#singleton = new GameController()
+    return this.#singleton
   }
 
+  static factory = GameFactory.singleton()
   constructor() {
-    this.factory.register(Chaos.GameClass)
+    GameController.factory.register(Chaos.GameClass)
   }
 
-  async getAvailableGames(): Promise<Response> {
-    const games = this.factory.getAvailableGames()
+  async catalog(): Promise<Response> {
+    const games = GameController.factory.getAvailableGames()
     return new Response(JSON.stringify(games), { headers })
   }
 }

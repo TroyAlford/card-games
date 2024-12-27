@@ -16,18 +16,16 @@ interface BuildAsset {
 }
 
 export class AssetsController {
-  private static instance: AssetsController
+  static #singleton: AssetsController
+  static singleton(): AssetsController {
+    if (!this.#singleton) this.#singleton = new AssetsController()
+    return this.#singleton
+  }
+
   private builder: Builder = new Builder({
     onRebuild: outputs => this.onRebuild(outputs),
   })
   private builds = new Map<string, BuildAsset>()
-
-  static singleton(): AssetsController {
-    if (!AssetsController.instance) {
-      AssetsController.instance = new AssetsController()
-    }
-    return AssetsController.instance
-  }
 
   async initialize(): Promise<void> {
     this.builder.add('client.js', join(__dirname, '../../../client/source/index.tsx'))

@@ -15,8 +15,7 @@ export class Layout extends React.Component<Props> {
 
   override render() {
     const { children } = this.props
-    const { store } = this.context
-    const { connectionStatus, currentGame, displayName } = store
+    const { connectionStatus, currentGame, displayName } = this.context
 
     return (
       <div className="layout">

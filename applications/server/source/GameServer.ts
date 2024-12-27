@@ -14,10 +14,10 @@ const CORS_HEADERS = {
 }
 
 export class GameServer {
-  private static instance: GameServer
+  static #singleton: GameServer
   static singleton() {
-    if (!this.instance) this.instance = new GameServer()
-    return this.instance
+    if (!this.#singleton) this.#singleton = new GameServer()
+    return this.#singleton
   }
 
   private readonly assets = AssetsController.singleton()
@@ -30,7 +30,7 @@ export class GameServer {
     this.initialize()
     this.server = Bun.serve({
       fetch: this.fetch,
-      port: 8080,
+      port: Bun.env.PORT ?? 80,
       websocket: {
         message: this.ws.handleMessage,
         open: this.ws.handleOpen,
@@ -57,7 +57,7 @@ export class GameServer {
           ? new Response()
           : new Response(null, { status: 400 })
       ))
-      .when('/api/games').then(() => this.gameController.getAvailableGames())
+      .when('/api/games').then(() => this.gameController.catalog())
       .when(/^[/]assets/).then(() => this.assets.request(request))
       .else(new Response(html, { headers: { 'Content-Type': 'text/html' } }))
   }
