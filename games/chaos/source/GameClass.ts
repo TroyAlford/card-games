@@ -4,8 +4,9 @@ import { BASIC_DECK } from '@card-games/types'
 import { uniqueId } from '@card-games/utilities'
 import type { ChaosGameState, ChaosOptions } from './types'
 
-export class GameClass extends Game<ChaosOptions, ChaosGameState> {
-  static id = 'chaos'
+export class Chaos extends Game<ChaosOptions, ChaosGameState> {
+  static override id = 'chaos'
+  static override name = 'Chaos'
 
   public override get initialState(): ChaosGameState {
     return {

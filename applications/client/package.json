@@ -5,6 +5,7 @@
   "type": "module",
   "dependencies": {
     "@card-games/components": "workspace:*",
+    "@card-games/utilities": "workspace:*",
     "@card-games/types": "workspace:*",
     "konva": "^9.3.18",
     "mobx": "^6.13.5",

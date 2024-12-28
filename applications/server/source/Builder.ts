@@ -92,57 +92,66 @@ export class Builder {
   async rebuild(): Promise<BuildOutput[]> {
     if (!this.#entrypoints.length) return []
 
-    try {
-      this.#build = Bun.build({
-        define: {
-          'Bun.env.NODE_ENV': JSON.stringify(Bun.env.NODE_ENV ?? 'production'),
-        },
-        entrypoints: this.#entrypoints.map(([, file]) => (
-          path.isAbsolute(file) ? file : path.join(this.#root, file)
-        )),
-        format: 'esm',
-        minify: {
-          identifiers: false,
-          syntax: true,
-          whitespace: true,
-        },
-        plugins: [
-          pluginGlobals(),
-          pluginSASS('#root'),
-        ],
-        sourcemap: 'external',
-        target: 'browser',
-      }).then(async build => {
-        // Log any build errors
-        if (build.logs.length > 0) {
-          console.error('[BUILD] Errors:', build.logs)
-        }
+    const delays = [50, 250] // Delays between retries in ms
+    for (let attempt = 0; attempt <= delays.length; attempt++) {
+      try {
+        this.#build = Bun.build({
+          define: {
+            'Bun.env.NODE_ENV': JSON.stringify(Bun.env.NODE_ENV ?? 'production'),
+          },
+          entrypoints: this.#entrypoints.map(([, file]) => (
+            path.isAbsolute(file) ? file : path.join(this.#root, file)
+          )),
+          format: 'esm',
+          minify: {
+            identifiers: false,
+            syntax: true,
+            whitespace: true,
+          },
+          plugins: [
+            pluginGlobals(),
+            pluginSASS('#root'),
+          ],
+          sourcemap: 'external',
+          target: 'browser',
+        }).then(async build => {
+          // Log any build errors
+          if (build.logs.length > 0) {
+            console.error('[BUILD] Errors:', build.logs)
+          }
 
-        // Check for build success
-        if (!build.success) {
-          console.error('[BUILD] Failed:', build.logs)
+          // Check for build success
+          if (!build.success) {
+            console.error('[BUILD] Failed:', build.logs)
+            return []
+          }
+
+          const outputs = build.outputs
+            .filter(o => o.kind === 'entry-point')
+            .map<BuildOutput>((output, index) => ({
+              name: this.#entrypoints[index][0],
+              output,
+            }))
+
+          await this.#onRebuild?.(outputs)
+          return outputs
+        })
+
+        return this.#build
+      } catch (error) {
+        console.error(`[BUILD] Error (attempt ${attempt + 1}):`, error)
+
+        // If this was the last attempt, throw the error
+        if (attempt === delays.length) {
           return []
         }
 
-        const outputs = build.outputs
-          .filter(o => o.kind === 'entry-point')
-          .map<BuildOutput>((output, index) => ({
-            name: this.#entrypoints[index][0],
-            output,
-          }))
-
-        await this.#onRebuild?.(outputs)
-        return outputs
-      }).catch(error => {
-        console.error('[BUILD] Error:', error)
-        return []
-      })
-
-      return this.#build
-    } catch (error) {
-      console.error('[BUILD] Error:', error)
-      return []
+        // Wait before retrying
+        await new Promise(resolve => setTimeout(resolve, delays[attempt]))
+      }
     }
+
+    return []
   }
 
   /**
@@ -189,6 +198,5 @@ export class Builder {
     this.#entrypoints = []
     this.#onRebuild = undefined
     this.#root = ''
-    this.#watcher = null
   }
 }

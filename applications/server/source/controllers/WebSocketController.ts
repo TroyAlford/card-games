@@ -123,7 +123,7 @@ export class WebSocketController {
 
   private broadcastGameState(lobby: GameLobby): void {
     lobby.players.forEach(player => {
-      const state = lobby.game.getPlayerState(player.data.profile.id)
+      const state = lobby.game.state(player.data.profile.id)
       player.send(JSON.stringify({
         state,
         type: MessageType.GameState,
@@ -149,7 +149,7 @@ export class WebSocketController {
     return Array.from(this.games.values()).find(game => game.code === code)
   }
 
-  private dispose(): void {
+  public dispose(): void {
     this.connections.forEach(ws => ws.close(1012, 'Server shutting down'))
     this.connections.clear()
     this.games.clear()

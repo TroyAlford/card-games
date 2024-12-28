@@ -41,6 +41,8 @@ export class GameServer {
         open: this.ws.onConnect,
       },
     })
+
+    process.on('beforeExit', () => this.dispose())
   }
 
   async initialize() {
@@ -84,7 +86,7 @@ export class GameServer {
           ? new Response()
           : new Response(null, { status: 400 })
       ))
-      .when('/api/games').then(() => this.gameController.catalog())
+      .when('/api/games').then(() => this.gameController.getAvailableGames())
       .when(/^[/]assets/).then(() => this.assets.request(request))
       .else(new Response(html, {
         headers: {

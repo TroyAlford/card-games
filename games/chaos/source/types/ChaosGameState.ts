@@ -1,10 +1,7 @@
-import type { GameState } from '@card-games/card-game/source/Game'
-import type { Card } from '@card-games/types'
+import type { Card, GameState } from '@card-games/types'
 import type { ChaosPlayerState } from './ChaosPlayerState'
 
-/**
- * Current state of a chaos game
- */
+/** Current state of a chaos game */
 export interface ChaosGameState extends GameState {
   commonArea: {
     cards: Card[],

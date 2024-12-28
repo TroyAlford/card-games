@@ -1,81 +1,28 @@
-import type { PlayerState } from '@card-games/types'
-import { uniqueId } from '@card-games/utilities'
+import type { PlayerGameState } from 'libraries/types'
+import { uniqueId } from 'libraries/utilities'
 import type { Action } from './types/Action'
 import type { GameOptions } from './types/GameOptions'
+import type { GameState } from './types/GameState'
 
-export interface GameState {
-  currentPlayerId: string | null,
-  players: PlayerState[],
-}
-
-/** Abstract base class for card games */
 export abstract class Game<
   Options extends GameOptions = GameOptions,
   State extends GameState = GameState,
 > {
-  protected options: Options
-  protected state: State
+  static id: string
+  static name: string
 
-  get defaultOptions(): Partial<GameOptions> {
-    return {
-      maxPlayers: 0,
-      minPlayers: 0,
-    }
-  }
-
-  get initialState(): GameState {
-    return {
-      currentPlayerId: null,
-      players: [],
-    }
-  }
-
-  constructor(options?: Partial<Options>) {
-    // First, configure the game options
+  protected state: State = this.initialState
+  protected get initialState(): State {
     const id = uniqueId()
-    this.options = {
-      ...this.defaultOptions,
-      ...options,
-      id,
-      name: options?.name ?? id,
-    } as Options
-
-    // Now, state can be initialized based on the options
-    this.state = this.initialState as State
+    return { id, name: `${this.constructor.name} (${id})`, players: [] }
   }
 
-  get id(): string {
-    return this.options.id
-  }
+  constructor(public options?: Partial<Options>) {}
 
-  get maxPlayers(): number {
-    return this.options.maxPlayers
-  }
-
-  get minPlayers(): number {
-    return this.options.minPlayers
-  }
-
-  get name(): string {
-    return this.options.name
-  }
-
-  /**
-   * Get the available actions for the current player
-   */
   abstract getAvailableActions(): Action<State>[]
-
-  /**
-   * Get the current player's ID
-   */
   abstract getCurrentPlayerId(): string
+  abstract initialize(playerIds: string[]): State
 
-  /**
-   * Execute an action and determine what happens next
-   * @param action - The action to execute. Game implementations should:
-   *  - validate the action
-   *  - execute the action
-   *  - update the game state
-   */
-  abstract action(action: Action<State>): void
+  action(): void { return }
+  view(playAreaId: string): void { return }
 }

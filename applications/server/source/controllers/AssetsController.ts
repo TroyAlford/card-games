@@ -99,7 +99,7 @@ export class AssetsController {
     return 'application/octet-stream'
   }
 
-  dispose(): void {
+  public dispose(): void {
     this.builder.stop()
     this.builder.dispose()
   }

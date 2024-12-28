@@ -1,5 +1,5 @@
-import { GameFactory } from '@card-games/card-game'
-import * as Chaos from '@card-games/chaos'
+import { Chaos } from '@card-games/chaos'
+import { GameCatalog } from '../GameCatalog'
 
 const headers = {
   'Access-Control-Allow-Headers': '*',
@@ -15,13 +15,14 @@ export class GameController {
     return this.#singleton
   }
 
-  static factory = GameFactory.singleton()
+  private gameCatalog = GameCatalog.singleton()
+
   constructor() {
-    GameController.factory.register(Chaos.GameClass)
+    this.gameCatalog.register(Chaos)
   }
 
-  async catalog(): Promise<Response> {
-    const games = GameController.factory.getAvailableGames()
-    return new Response(JSON.stringify(games), { headers })
+  async getAvailableGames(): Promise<Response> {
+    const games = this.gameCatalog.getAvailableGames()
+    return Promise.resolve(new Response(JSON.stringify(games), { headers }))
   }
 }
